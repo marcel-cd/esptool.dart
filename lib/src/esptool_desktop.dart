@@ -129,6 +129,7 @@ class _EsptoolDesktop extends EsptoolPlatform {
               libusb_error.LIBUSB_SUCCESS;
           if (getDesc) {
             if (descPtr.ref.iManufacturer > 0) {
+              print(descPtr.ref.iManufacturer);
               manufacturer = _getStringDescriptorASCII(
                 handle,
                 descPtr.ref.iManufacturer,
