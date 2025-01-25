@@ -34,7 +34,7 @@ class TransportLinux extends _TransportDesktop {
     TransportPlatform.instance = TransportLinux();
     _libusb = Libusb(
       DynamicLibrary.open(
-        '${File(Platform.resolvedExecutable).parent.path}/lib/libusb-1.0.23.so',
+        '${File(Platform.resolvedExecutable).parent.path}/lib/libusb-1.0.so',
       ),
     );
   }
@@ -83,12 +83,15 @@ class _TransportDesktop extends TransportPlatform {
           _libusb.libusb_get_device_descriptor(dev, descPtr) ==
           libusb_error.LIBUSB_SUCCESS;
 
-      yield UsbDevice(
-        identifier: addr.toString(),
-        vendorId: getDesc ? descPtr.ref.idVendor : 0,
-        productId: getDesc ? descPtr.ref.idProduct : 0,
-        configurationCount: getDesc ? descPtr.ref.bNumConfigurations : 0,
-      );
+      if (getDesc &&
+          (descPtr.ref.idVendor == 0x303a || descPtr.ref.idVendor == 0x1a86)) {
+        yield UsbDevice(
+          identifier: addr.toString(),
+          vendorId: getDesc ? descPtr.ref.idVendor : 0,
+          productId: getDesc ? descPtr.ref.idProduct : 0,
+          configurationCount: getDesc ? descPtr.ref.bNumConfigurations : 0,
+        );
+      }
     }
 
     ffi.calloc.free(descPtr);
