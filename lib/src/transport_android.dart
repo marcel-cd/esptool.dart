@@ -3,14 +3,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:esptool/src/common.dart';
-import 'package:esptool/src/esptool_platform_interface.dart';
+import 'package:esptool/src/transport_platform_interface.dart';
 
 const MethodChannel _channel = MethodChannel('esptool');
 
-class EsptoolAndroid extends EsptoolPlatform {
+class TransportAndroid extends TransportPlatform {
   // For example/.dart_tool/flutter_build/generated_main.dart
   static registerWith() {
-    EsptoolPlatform.instance = EsptoolAndroid();
+    TransportPlatform.instance = TransportAndroid();
   }
 
   @override

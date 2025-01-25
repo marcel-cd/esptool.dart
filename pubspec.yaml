@@ -28,17 +28,17 @@ flutter:
       android:
         # package: com.example.esptool
         pluginClass: EsptoolPlugin
-        dartPluginClass: EsptoolAndroid
+        dartPluginClass: TransportAndroid
       ios:
         pluginClass: EsptoolPlugin
       linux:
         pluginClass: EsptoolPlugin
-        dartPluginClass: EsptoolLinux
+        dartPluginClass: TransportLinux
       macos:
         pluginClass: EsptoolPlugin
       windows:
         pluginClass: EsptoolPluginCApi
-        dartPluginClass: EsptoolWindows
+        dartPluginClass: TransportWindows
       web:
         pluginClass: EsptoolWeb
         fileName: esptool_web.dart

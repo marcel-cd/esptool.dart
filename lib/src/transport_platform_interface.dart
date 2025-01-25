@@ -3,21 +3,21 @@ import 'dart:typed_data';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:esptool/src/common.dart';
 
-abstract class EsptoolPlatform extends PlatformInterface {
-  EsptoolPlatform() : super(token: _token);
+abstract class TransportPlatform extends PlatformInterface {
+  TransportPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
-  static late EsptoolPlatform _instance;
+  static late TransportPlatform _instance;
 
   /// The default instance of [PathProviderPlatform] to use.
   ///
   /// Defaults to [MethodChannelPathProvider].
-  static EsptoolPlatform get instance => _instance;
+  static TransportPlatform get instance => _instance;
 
   /// Platform-specific plugins should set this with their own platform-specific
   /// class that extends [PathProviderPlatform] when they register themselves.
-  static set instance(EsptoolPlatform instance) {
+  static set instance(TransportPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

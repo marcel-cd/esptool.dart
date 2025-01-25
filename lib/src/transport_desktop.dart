@@ -7,31 +7,31 @@ import 'package:flutter/foundation.dart';
 import 'package:libusb_new/libusb_new.dart';
 import 'package:esptool/src/common.dart';
 
-import 'esptool_platform_interface.dart';
+import 'transport_platform_interface.dart';
 import 'utils.dart';
 
 late Libusb _libusb;
 
-class EsptoolWindows extends _EsptoolDesktop {
+class TransportWindows extends _TransportDesktop {
   // For example/.dart_tool/flutter_build/generated_main.dart
   static registerWith() {
-    EsptoolPlatform.instance = EsptoolMacos();
+    TransportPlatform.instance = TransportMacos();
     _libusb = Libusb(DynamicLibrary.open('libusb-1.0.23.dll'));
   }
 }
 
-class EsptoolMacos extends _EsptoolDesktop {
+class TransportMacos extends _TransportDesktop {
   // For example/.dart_tool/flutter_build/generated_main.dart
   static registerWith() {
-    EsptoolPlatform.instance = EsptoolMacos();
+    TransportPlatform.instance = TransportMacos();
     _libusb = Libusb(DynamicLibrary.open('libusb-1.0.23.dylib'));
   }
 }
 
-class EsptoolLinux extends _EsptoolDesktop {
+class TransportLinux extends _TransportDesktop {
   // For example/.dart_tool/flutter_build/generated_main.dart
   static registerWith() {
-    EsptoolPlatform.instance = EsptoolLinux();
+    TransportPlatform.instance = TransportLinux();
     _libusb = Libusb(
       DynamicLibrary.open(
         '${File(Platform.resolvedExecutable).parent.path}/lib/libusb-1.0.23.so',
@@ -40,7 +40,7 @@ class EsptoolLinux extends _EsptoolDesktop {
   }
 }
 
-class _EsptoolDesktop extends EsptoolPlatform {
+class _TransportDesktop extends TransportPlatform {
   Pointer<libusb_device_handle>? _devHandle;
 
   @override

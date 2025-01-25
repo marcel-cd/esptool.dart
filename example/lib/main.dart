@@ -19,13 +19,13 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
 
-    Esptool.init();
+    Transport.init();
     _scan();
   }
 
   void _scan() async {
     _deviceList.clear();
-    var descriptions = await Esptool.getDevicesWithDescription(
+    var descriptions = await Transport.getDevicesWithDescription(
       requestPermission: false,
     );
     // print(descriptions);
@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<bool> connectDevice(UsbDeviceDescription device) async {
-    var isConnect = await Esptool.connectDevice(device.device);
+    var isConnect = await Transport.connectDevice(device.device);
     print(isConnect);
     return isConnect;
   }
