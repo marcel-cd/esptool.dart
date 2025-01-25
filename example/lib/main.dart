@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<UsbDeviceDescription> _deviceList = [];
+  List<UsbDevice> _deviceList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -25,16 +25,13 @@ class _MyAppState extends State<MyApp> {
 
   void _scan() async {
     _deviceList.clear();
-    var descriptions = await Transport.getDevicesWithDescription(
-      requestPermission: false,
-    );
+    _deviceList = await Transport.getDeviceList();
     // print(descriptions);
-    _deviceList = descriptions;
     setState(() {});
   }
 
-  Future<bool> connectDevice(UsbDeviceDescription device) async {
-    var isConnect = await Transport.connectDevice(device.device);
+  Future<bool> connectDevice(UsbDevice device) async {
+    var isConnect = await Transport.connectDevice(device);
     print(isConnect);
     return isConnect;
   }
@@ -64,7 +61,7 @@ class _MyAppState extends State<MyApp> {
                             .map(
                               (device) => ListTile(
                                 title: Text('${device.product}'),
-                                subtitle: Text("${device.device.vendorId}"),
+                                subtitle: Text("${device.vendorId}"),
                                 onTap: () {
                                   // do something
                                 },

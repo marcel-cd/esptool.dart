@@ -1,16 +1,42 @@
-// ignore_for_file: constant_identifier_names
+enum ParityType { none, odd, even, mark, space }
+
+enum FlowControlType { none, hardware, software }
+
+class SerialOptions {
+  final int? baudRate;
+  final int? dataBits;
+  final int? stopBits;
+  final ParityType? parity;
+  final int? bufferSize;
+  final FlowControlType? flowControl;
+
+  SerialOptions({
+    this.baudRate,
+    this.dataBits,
+    this.stopBits,
+    this.parity,
+    this.bufferSize,
+    this.flowControl,
+  });
+}
 
 class UsbDevice {
   final String identifier;
   final int vendorId;
   final int productId;
   final int configurationCount;
+  final String? manufacturer;
+  final String? product;
+  final String? serialNumber;
 
   UsbDevice({
     required this.identifier,
     required this.vendorId,
     required this.productId,
     required this.configurationCount,
+    this.manufacturer,
+    this.product,
+    this.serialNumber,
   });
 
   factory UsbDevice.fromMap(Map<dynamic, dynamic> map) {
@@ -47,9 +73,10 @@ class UsbConfiguration {
   });
 
   factory UsbConfiguration.fromMap(Map<dynamic, dynamic> map) {
-    var interfaces = (map['interfaces'] as List)
-        .map((e) => UsbInterface.fromMap(e))
-        .toList();
+    var interfaces =
+        (map['interfaces'] as List)
+            .map((e) => UsbInterface.fromMap(e))
+            .toList();
     return UsbConfiguration(
       id: map['id'],
       index: map['index'],
@@ -117,10 +144,7 @@ class UsbEndpoint {
   final int endpointNumber;
   final int direction;
 
-  UsbEndpoint({
-    required this.endpointNumber,
-    required this.direction,
-  });
+  UsbEndpoint({required this.endpointNumber, required this.direction});
 
   factory UsbEndpoint.fromMap(Map<dynamic, dynamic> map) {
     return UsbEndpoint(
@@ -132,45 +156,7 @@ class UsbEndpoint {
   int get endpointAddress => endpointNumber | direction;
 
   Map<String, dynamic> toMap() {
-    return {
-      'endpointNumber': endpointNumber,
-      'direction': direction,
-    };
-  }
-
-  @override
-  String toString() => toMap().toString();
-}
-
-class UsbDeviceDescription {
-  final UsbDevice device;
-  final String? manufacturer;
-  final String? product;
-  final String? serialNumber;
-
-  UsbDeviceDescription({
-    required this.device,
-    this.manufacturer,
-    this.product,
-    this.serialNumber,
-  });
-
-  factory UsbDeviceDescription.fromMap(Map<dynamic, dynamic> map) {
-    return UsbDeviceDescription(
-      device: UsbDevice.fromMap(map['device']),
-      manufacturer: map['manufacturer'],
-      product: map['product'],
-      serialNumber: map['serialNumber'],
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'device': device.toMap(),
-      'manufacturer': manufacturer,
-      'product': product,
-      'serialNumber': serialNumber,
-    };
+    return {'endpointNumber': endpointNumber, 'direction': direction};
   }
 
   @override
